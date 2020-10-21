@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mobiletrain.mapper.CartMapper">
+    <resultMap id="cartResultMap" type="Cart" autoMapping="true">
+        <id property="id" column="ctid"/>
+        <association property="product"
+                     resultMap="com.mobiletrain.mapper.ProductMapper.productResultMap"
+                     autoMapping="true"/>
+    </resultMap>
+
+
+    <select id="query" resultMap="cartResultMap">
+        select * ,tb_product.id as pid , tb_cart.id as ctid
+        from tb_cart
+        inner join tb_product on tb_product.id = tb_cart.pid
+        where uid = #{uid}
+    </select>
+</mapper>

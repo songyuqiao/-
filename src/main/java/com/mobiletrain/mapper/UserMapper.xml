@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mobiletrain.mapper.UserMapper">
+
+    <resultMap id="UserResultMap" type="User" autoMapping="true">
+        <id property="id" column="uid"/>
+        <collection property="carts"
+                    resultMap="com.mobiletrain.mapper.CartMapper.cartResultMap"
+                    autoMapping="true"/>
+    </resultMap>
+
+    <select id="queryByUsernameAndPassword" resultMap="UserResultMap">
+        select * , tb_user.id as uid , tb_cart.id as ctid , tb_product.id as pid
+        from tb_user
+        inner join tb_cart on tb_cart.uid = tb_user.id
+        inner join tb_product on tb_product.id = tb_cart.pid
+        where tb_user.username=#{username} and tb_user.password=#{password}
+    </select>
+</mapper>
